@@ -51,4 +51,7 @@ public class Students {
     @ManyToOne
     @JoinColumn(name = "specialisation_id", nullable = false)
     private Specialisation specialisation;
+
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private EducationDetails educationDetails;
 }

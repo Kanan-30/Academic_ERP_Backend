@@ -25,21 +25,21 @@ public class AdminController {
         return ResponseEntity.ok(token);
     }
 
-    @PutMapping("/students/{id}")
-    public ResponseEntity<String> updateStudent(@RequestHeader("Authorization") String authHeader,
-                                                @PathVariable Long id,
-                                                @RequestBody StudentRequest request) {
-        adminService.validateAdmin(authHeader); // Validate admin
-        studentService.updateStudentById(id, request); // Update student
-        return ResponseEntity.ok("Student details updated successfully");
-    }
-    @GetMapping("/students/{id}")
-    public ResponseEntity<Students> getStudent(@RequestHeader("Authorization") String authHeader,
-                                               @PathVariable Long id) {
-        adminService.validateAdmin(authHeader); // Validate admin
-        Students student = studentService.getStudentById(id); // Fetch student details
-        return ResponseEntity.ok(student); // Return the student details
-    }
+//    @PutMapping("/students/{id}")
+//    public ResponseEntity<String> updateStudent(@RequestHeader("Authorization") String authHeader,
+//                                                @PathVariable Long id,
+//                                                @RequestBody StudentRequest request) {
+//        adminService.validateAdmin(authHeader); // Validate admin
+//        studentService.updateStudentById(id, request); // Update student
+//        return ResponseEntity.ok("Student details updated successfully");
+//    }
+//    @GetMapping("/students/{id}")
+//    public ResponseEntity<Students> getStudent(@RequestHeader("Authorization") String authHeader,
+//                                               @PathVariable Long id) {
+//        adminService.validateAdmin(authHeader); // Validate admin
+//        Students student = studentService.getStudentById(id); // Fetch student details
+//        return ResponseEntity.ok(student); // Return the student details
+//    }
 
     @DeleteMapping("/students/{id}")
     public ResponseEntity<String> deleteStudent(@RequestHeader("Authorization") String authHeader,
@@ -48,6 +48,24 @@ public class AdminController {
         studentService.deleteStudentById(id); // Delete student
         return ResponseEntity.ok("Student deleted successfully");
     }
+    @GetMapping("/students/{id}")
+    public ResponseEntity<Students> getStudent(@RequestHeader("Authorization") String authHeader,
+                                               @PathVariable Long id) {
+        adminService.validateAdmin(authHeader);
+        Students student = studentService.getStudentById(id);
+        return ResponseEntity.ok(student); // Includes education details
+    }
+
+    @PutMapping("/students/{id}")
+    public ResponseEntity<String> updateStudent(@RequestHeader("Authorization") String authHeader,
+                                                @PathVariable Long id,
+                                                @RequestBody StudentRequest request) {
+        adminService.validateAdmin(authHeader);
+        studentService.updateStudentById(id, request);
+        return ResponseEntity.ok("Student details updated successfully");
+    }
+
+
 }
 
 
