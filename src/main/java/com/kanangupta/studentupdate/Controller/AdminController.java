@@ -49,4 +49,4 @@ public class AdminController {
         studentService.updateStudentById(id, request);
         return ResponseEntity.ok("Student details updated successfully");
     }
-
+}
