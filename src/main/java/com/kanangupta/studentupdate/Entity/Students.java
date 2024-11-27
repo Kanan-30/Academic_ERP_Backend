@@ -1,5 +1,6 @@
 package com.kanangupta.studentupdate.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,6 +53,7 @@ public class Students {
     @JoinColumn(name = "specialisation_id", nullable = false)
     private Specialisation specialisation;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private EducationDetails educationDetails;
 }

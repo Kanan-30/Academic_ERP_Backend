@@ -1,5 +1,6 @@
 package com.kanangupta.studentupdate.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class EducationDetails {
     private Integer id;
 
     @OneToOne
+    @JsonBackReference
     @JoinColumn(name = "student_id", nullable = false)
     private Students student;
 
