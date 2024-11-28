@@ -26,19 +26,12 @@ public class AdminController {
         return ResponseEntity.ok(token);
     }
 
-    @DeleteMapping("/students/{id}")
-    public ResponseEntity<String> deleteStudent(@RequestHeader("Authorization") String authHeader,
-                                                @PathVariable Long id) {
-        adminService.validateAdmin(authHeader); // Validate admin
-        studentService.deleteStudentById(id); // Delete student
-        return ResponseEntity.ok("Student deleted successfully");
-    }
     @GetMapping("/students/{id}")
     public ResponseEntity<Students> getStudent(@RequestHeader("Authorization") String authHeader,
                                                @PathVariable Long id) {
         adminService.validateAdmin(authHeader);
         Students student = studentService.getStudentById(id);
-        return ResponseEntity.ok(student); // Includes education details
+        return ResponseEntity.ok(student);
     }
 
     @PutMapping("/students/{id}")

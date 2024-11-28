@@ -50,6 +50,6 @@ CREATE TABLE education_details (
                                    school_10th_name VARCHAR(255) NOT NULL,
                                    school_10th_percentage DECIMAL(5, 2) NOT NULL,
                                    btech_college_name VARCHAR(255),
-                                   btech_college_cgpa DECIMAL(3, 2),
-                                   FOREIGN KEY (student_id) REFERENCES students(student_id)
+                                   btech_college_cgpa DECIMAL(3, 2)
 );
+

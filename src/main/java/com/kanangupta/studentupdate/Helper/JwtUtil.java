@@ -4,8 +4,13 @@ import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Component
 public class JwtUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
     private final String SECRET_KEY = "PhIsyxtORPYufZWKuyJ9kp4k/2SYhrCAWIEGd+QM2nE=";
 
@@ -22,16 +27,31 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 
+
+
     public boolean isTokenValid(String token) {
         try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
-            return true;
+            Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+            Date expirationDate = claims.getExpiration();
+
+            // Check if the token is expired
+            if (expirationDate.before(new Date())) {
+                return false; // Token has expired
+            }
+
+            return true; // Token is valid and not expired
         } catch (JwtException | IllegalArgumentException e) {
-            return false;
+            return false; // Invalid or malformed token
         }
     }
+
+
+
+
     public String extractUsername(String token) {
         Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
+
+    
 }

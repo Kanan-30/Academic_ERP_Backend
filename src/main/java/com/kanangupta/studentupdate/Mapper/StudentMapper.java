@@ -1,4 +1,4 @@
-package com.kanangupta.studentupdate.Mapper;
-
-public class StudentMapper {
-}
+//package com.kanangupta.studentupdate.Mapper;
+//
+//public class StudentMapper {
+//}

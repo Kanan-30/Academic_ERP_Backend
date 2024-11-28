@@ -83,13 +83,7 @@ public class StudentService {
     public Students getStudentById(Long id) {
         Students student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-        return student; // Includes education details due to relationship
-    }
-
-    public void deleteStudentById(Long id) {
-        Students students = studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-        studentRepository.delete(students);
+        return student;
     }
 
 

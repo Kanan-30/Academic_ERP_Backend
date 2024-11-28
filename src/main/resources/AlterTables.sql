@@ -30,3 +30,9 @@ ALTER TABLE placement_student
     ADD CONSTRAINT fk_placement_student
         FOREIGN KEY (student_id)
             REFERENCES students(student_id);
+
+-- Adding a foreign key constraint to link student_id in education_details to student_id in students table
+ALTER TABLE education_details
+    ADD CONSTRAINT fk_student_id
+        FOREIGN KEY (student_id)
+            REFERENCES students(student_id);

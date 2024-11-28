@@ -1,22 +1,26 @@
 package com.kanangupta.studentupdate.Service;
 
+import com.kanangupta.studentupdate.Exception.CustomException;
 import com.kanangupta.studentupdate.Helper.JwtUtil;
 import com.kanangupta.studentupdate.dto.AdminLoginRequest;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+
+import io.jsonwebtoken.SignatureException;
 
 
 @Service
 public class AdminService {
 
 
-    private final String adminUsername = "admin";
+    @Value("${admin.username}")
+    private String adminUsername;
 
-
-    private final String adminPassword= "admin123";
-
-
-    private final String jwtSecret ="PhIsyxtORPYufZWKuyJ9kp4k/2SYhrCAWIEGd+QM2nE=";
+    @Value("${admin.password}")
+    private String adminPassword;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -31,17 +35,30 @@ public class AdminService {
 
     public void validateAdmin(String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new RuntimeException("Invalid Authorization header");
+            throw new CustomException("Invalid Authorization header");
         }
+
         String token = authHeader.substring(7);
 
-        if (!jwtUtil.isTokenValid(token)) {
-            throw new RuntimeException("Invalid or expired token");
+        try {
+            if (!jwtUtil.isTokenValid(token)) {
+                throw new CustomException("Invalid or expired token");
+            }
+        } catch (ExpiredJwtException e) {
+            // Handle expired token specifically
+            throw new CustomException("Token has expired. Please login again.");
+        } catch (SignatureException e) {
+            // Handle invalid signature specifically
+            throw new CustomException("Invalid token signature. Token cannot be trusted.");
+        } catch (JwtException e) {
+            // General JWT exception (other types of validation failures)
+            throw new CustomException("Token validation failed: " + e.getMessage());
         }
 
         String username = jwtUtil.extractUsername(token);
         if (!adminUsername.equals(username)) {
-            throw new RuntimeException("Unauthorized admin");
+            throw new CustomException("Unauthorized admin");
         }
     }
+
 }
